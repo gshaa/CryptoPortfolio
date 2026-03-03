@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web3 Portfolio — Growth & Crypto Research Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080b0f;
+      --bg2: #0d1117;
+      --bg3: #111820;
+      --surface: #141c25;
+      --surface2: #1a2535;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --accent: #00e5a0;
+      --accent2: #00b4d8;
+      --accent3: #f7b731;
+      --text: #e8edf3;
+      --text2: #8a9ab0;
+      --text3: #5a6a7e;
+      --glow: rgba(0,229,160,0.15);
+      --glow2: rgba(0,180,216,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(0,229,160,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* Ambient glow blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob-1 { width: 600px; height: 600px; background: rgba(0,229,160,0.04); top: -200px; left: -200px; }
+    .blob-2 { width: 500px; height: 500px; background: rgba(0,180,216,0.04); bottom: 20%; right: -150px; }
+    .blob-3 { width: 400px; height: 400px; background: rgba(247,183,49,0.03); top: 50%; left: 40%; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(8,11,15,0.95), transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text2);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section { position: relative; z-index: 1; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      color: var(--text);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+    h1 .accent { color: var(--accent); }
+    h1 .dim { color: var(--text3); }
+    .hero-desc {
+      max-width: 600px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text2);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--text3);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+    .scroll-line {
+      width: 40px; height: 1px;
+      background: var(--text3);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ABOUT / SPECIALIZATION */
+    #about {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: var(--text);
+      margin-bottom: 40px;
+      line-height: 1.05;
+    }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+    .spec-item {
+      background: var(--surface);
+      padding: 32px;
+      transition: background 0.3s;
+    }
+    .spec-item:hover { background: var(--surface2); }
+    .spec-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .spec-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .spec-text {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* LANGUAGES */
+    .langs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .lang-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 40px;
+      font-size: 14px;
+      color: var(--text2);
+    }
+    .lang-pill strong {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .lang-pill .level {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    /* ACHIEVEMENTS */
+    #achievements {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .achievement-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .achievement-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .achievement-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+    .achievement-card:hover::before { opacity: 1; }
+    .achievement-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+    .achievement-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), #ff6b35); }
+    .ach-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,229,160,0.08);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .achievement-card:nth-child(2) .ach-tag { color: var(--accent2); background: rgba(0,180,216,0.08); }
+    .achievement-card:nth-child(3) .ach-tag { color: var(--accent3); background: rgba(247,183,49,0.08); }
+    .ach-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .ach-roi {
+      font-family: 'Syne', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .achievement-card:nth-child(2) .ach-roi { color: var(--accent2); }
+    .achievement-card:nth-child(3) .ach-roi { color: var(--accent3); }
+    .ach-details {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ach-details li {
+      font-size: 14px;
+      color: var(--text2);
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .ach-details li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--text3);
+      font-size: 12px;
+    }
+
+    /* ECOSYSTEMS */
+    #ecosystems {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .eco-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+      align-items: start;
+    }
+    .eco-desc {
+      font-size: 16px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+    .eco-focus {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .eco-focus-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 16px;
+    }
+    .eco-focus-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .eco-focus-list li {
+      font-size: 14px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eco-focus-list li::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .ecosystem-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+    .eco-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text2);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .eco-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,229,160,0.05); }
+    .eco-tag .roi {
+      font-size: 11px;
+      color: var(--accent);
+      background: rgba(0,229,160,0.1);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .eco-tag.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,160,0.05); }
+    .eco-tag.active .roi { background: rgba(0,229,160,0.2); }
+
+    /* TOKEN SALES */
+    #token-sales {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .sales-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .sales-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .sales-box-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 20px;
+    }
+    .sales-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sale-chip {
+      padding: 6px 14px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text2);
+      font-family: 'DM Mono', monospace;
+    }
+    .eval-criteria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .eval-item {
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eval-item::before {
+      content: '✓';
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* TECH */
+    #technical {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .tech-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .tech-box-icon { font-size: 24px; margin-bottom: 16px; }
+    .tech-box-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .tech-chain-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tech-chip {
+      padding: 5px 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text2);
+    }
+    .tech-chip.highlight { border-color: rgba(0,229,160,0.3); color: var(--accent); background: rgba(0,229,160,0.05); }
+
+    /* CASE STUDY */
+    #case-study {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .case-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+    .case-badge {
+      padding: 12px 24px;
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.2);
+      border-radius: 12px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .case-badge-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .case-badge-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+    .case-phases {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .phase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .phase-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .phase-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .phase-text {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+    .case-signals {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+    .signals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .signal-item {
+      padding: 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .signal-item strong {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    /* GROWTH ANALYSIS */
+    #growth {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .analysis-card {
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+    }
+    .analysis-card.positive { background: rgba(0,229,160,0.03); border-color: rgba(0,229,160,0.15); }
+    .analysis-card.negative { background: rgba(247,183,49,0.03); border-color: rgba(247,183,49,0.15); }
+    .analysis-card.improve { background: rgba(0,180,216,0.03); border-color: rgba(0,180,216,0.15); }
+    .analysis-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .analysis-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .positive .analysis-dot { background: var(--accent); }
+    .negative .analysis-dot { background: var(--accent3); }
+    .improve .analysis-dot { background: var(--accent2); }
+    .analysis-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .analysis-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .analysis-items li {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+    .analysis-items li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--text3);
+      font-size: 12px;
+    }
+    .analysis-items li strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    /* SERVICES */
+    #services {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .service-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+    .service-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .service-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .service-list li {
+      font-size: 14px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .service-list li::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 60px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text2);
+      letter-spacing: -0.5px;
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .footer-twitter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .footer-twitter:hover {
+      color: var(--accent);
+      border-color: rgba(0,229,160,0.4);
+      background: rgba(0,229,160,0.05);
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleX(1); }
+      50% { opacity: 1; transform: scaleX(1.3); transform-origin: left; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      #hero, #about, #achievements, #ecosystems, #token-sales, #technical, #case-study, #growth, #services { padding: 80px 24px; }
+      .section-divider { margin: 0 24px; }
+      footer { padding: 40px 24px; }
+      .eco-intro, .case-phases, .sales-grid, .analysis-grid, .services-grid, .tech-grid { grid-template-columns: 1fr; }
+      .case-header { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">W3<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#achievements">Results</a></li>
+      <li><a href="#ecosystems">Ecosystems</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#services">Services</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-tag">Available for hire</div>
+    <h1>Web3 Growth<br/>&amp; Crypto<br/><span class="accent">Research</span><br/><span class="dim">Specialist</span></h1>
+    <p class="hero-desc">2+ years of active experience in the crypto ecosystem — identifying profitable opportunities across airdrops, token launches, ecosystem campaigns, and emerging market narratives.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Active</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15–20</div>
+        <div class="stat-label">Major Ecosystems</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10x</div>
+        <div class="stat-label">Best ROI</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Languages</div>
+      </div>
+    </div>
+    <div class="hero-scroll"><span class="scroll-line"></span>Scroll to explore</div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label reveal">Profile</div>
+    <h2 class="reveal">What I Do</h2>
+    <div class="spec-grid reveal">
+      <div class="spec-item">
+        <span class="spec-icon">🔍</span>
+        <div class="spec-title">Project Evaluation</div>
+        <div class="spec-text">Evaluating crypto projects and tokenomics structures for viability and opportunity.</div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-icon">🎯</span>
+        <div class="spec-title">Ecosystem Activities</div>
+        <div class="spec-text">Identifying high-potential activities — airdrops, testnets, and incentive programs.</div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-icon">🧠</span>
+        <div class="spec-title">User Behavior</div>
+        <div class="spec-text">Understanding user behavior in Web3 ecosystems to inform growth and engagement.</div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-icon">📈</span>
+        <div class="spec-title">Growth Strategy</div>
+        <div class="spec-text">Growth strategies and campaign optimization for Web3 projects and platforms.</div>
+      </div>
+    </div>
+
+    <div class="section-label reveal">Languages</div>
+    <div class="langs reveal">
+      <div class="lang-pill"><strong>Russian</strong> <span class="level">Native</span></div>
+      <div class="lang-pill"><strong>Ukrainian</strong> <span class="level">Fluent</span></div>
+      <div class="lang-pill"><strong>English</strong> <span class="level">B1+ — Strong reading &amp; understanding</span></div>
+      <div class="lang-pill"><strong>Polish</strong> <span class="level">Working proficiency</span></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-label reveal">Track Record</div>
+    <h2 class="reveal">Key Achievements</h2>
+    <div class="achievements-grid reveal">
+
+      <div class="achievement-card">
+        <div class="ach-tag">Airdrop</div>
+        <div class="ach-title">Magic Eden</div>
+        <div class="ach-roi">Major</div>
+        <ul class="ach-details">
+          <li>Farmed the airdrop with zero capital exposure</li>
+          <li>Strategy: NFT trading with break-even rotation to qualify for ecosystem rewards</li>
+          <li>Sold tokens close to listing highs (~$8)</li>
+          <li>One of the most profitable ecosystem opportunities participated in</li>
+        </ul>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-tag">Token Sale</div>
+        <div class="ach-title">FF (Buidlpad)</div>
+        <div class="ach-roi">~10x ROI</div>
+        <ul class="ach-details">
+          <li>Participated in the sale and exited on listing</li>
+          <li>Achieved approximately 10x return on investment</li>
+        </ul>
+      </div>
+
+      <div class="achievement-card">
+        <div class="ach-tag">Marketplace Growth</div>
+        <div class="ach-title">Allegro</div>
+        <div class="ach-roi">10x Revenue</div>
+        <ul class="ach-details">
+          <li>Handled advertising, analytics, content optimization, competitor research</li>
+          <li>Revenue increased 10x within ~1 year</li>
+          <li>Built 20–30 bestseller products out of ~100 listings</li>
+          <li>Discovered free listing distribution strategy that boosted product visibility significantly</li>
+          <li>Scaled with marketplace ads at 300–600% ROI depending on product category</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ECOSYSTEMS -->
+  <section id="ecosystems">
+    <div class="section-label reveal">Activity</div>
+    <h2 class="reveal">Ecosystems &amp; Campaigns</h2>
+    <div class="eco-intro reveal">
+      <div class="eco-desc">
+        I have participated in 15–20 major ecosystem activities and token launches, consistently analyzing market narratives such as exchange incentive campaigns, new protocol launches, and ecosystem expansions.
+      </div>
+      <div class="eco-focus">
+        <div class="eco-focus-title">What I identify</div>
+        <ul class="eco-focus-list">
+          <li>Underfarmed opportunities</li>
+          <li>Inefficient user incentive programs</li>
+          <li>Ecosystems with high probability of retroactive rewards</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ecosystem-tags reveal">
+      <div class="eco-tag">Mantle <span class="roi">~5x</span></div>
+      <div class="eco-tag">Aevo <span class="roi">~10x</span></div>
+      <div class="eco-tag">ZetaChain</div>
+      <div class="eco-tag">Zeta DEX <span class="roi">~2x</span></div>
+      <div class="eco-tag">Scroll</div>
+      <div class="eco-tag">Hyperlane</div>
+      <div class="eco-tag">Towns <span class="roi">~3x</span></div>
+      <div class="eco-tag">Meteora <span class="roi">Multiple profitable</span></div>
+      <div class="eco-tag">Magic Eden <span class="roi">Major airdrop</span></div>
+      <div class="eco-tag">Pengu <span class="roi">Staking reward</span></div>
+      <div class="eco-tag">Unisat ecosystem</div>
+      <div class="eco-tag">Bitcoin Pizza</div>
+      <div class="eco-tag">Fractal <span class="roi">~5x</span></div>
+      <div class="eco-tag">Succinct testnet <span class="roi">~6x</span></div>
+      <div class="eco-tag active">OpenSea <span class="roi">Active ↗</span></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TOKEN SALES -->
+  <section id="token-sales">
+    <div class="section-label reveal">Early Opportunities</div>
+    <h2 class="reveal">Token Sales</h2>
+    <div class="sales-grid reveal">
+      <div class="sales-box">
+        <div class="sales-box-label">Buidlpad Activity</div>
+        <div class="sales-list">
+          <div class="sale-chip">Solayer</div>
+          <div class="sale-chip">Sahara AI</div>
+          <div class="sale-chip">Lombard</div>
+          <div class="sale-chip">Falcon</div>
+        </div>
+      </div>
+      <div class="sales-box">
+        <div class="sales-box-label">Other Sales</div>
+        <div class="sales-list">
+          <div class="sale-chip">PumpFun</div>
+          <div class="sale-chip">Wet</div>
+          <div class="sale-chip">Limitless</div>
+          <div class="sale-chip">Soon</div>
+          <div class="sale-chip">Binance Alpha</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-label reveal" style="margin-bottom: 16px;">How I evaluate sales</div>
+    <div class="eval-criteria reveal">
+      <div class="eval-item">Tokenomics structure</div>
+      <div class="eval-item">Investor distribution</div>
+      <div class="eval-item">Unlock schedule</div>
+      <div class="eval-item">Narrative strength</div>
+      <div class="eval-item">Community growth signals</div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- TECHNICAL -->
+  <section id="technical">
+    <div class="section-label reveal">Technical</div>
+    <h2 class="reveal">Infrastructure &amp; Tools</h2>
+    <div class="tech-grid reveal">
+      <div class="tech-box">
+        <div class="tech-box-icon">👛</div>
+        <div class="tech-box-title">Wallets</div>
+        <div class="tech-chain-list">
+          <span class="tech-chip highlight">MetaMask</span>
+          <span class="tech-chip highlight">Rabby</span>
+          <span class="tech-chip">Rainbow</span>
+          <span class="tech-chip highlight">Phantom</span>
+          <span class="tech-chip">Solflare</span>
+          <span class="tech-chip">Backpack</span>
+          <span class="tech-chip highlight">Unisat</span>
+          <span class="tech-chip">TronLink</span>
+          <span class="tech-chip">Keplr</span>
+          <span class="tech-chip">Petra</span>
+        </div>
+      </div>
+      <div class="tech-box">
+        <div class="tech-box-icon">⛓️</div>
+        <div class="tech-box-title">Blockchains</div>
+        <div class="tech-chain-list">
+          <span class="tech-chip highlight">Ethereum</span>
+          <span class="tech-chip highlight">Solana</span>
+          <span class="tech-chip highlight">Bitcoin ecosystem</span>
+          <span class="tech-chip">Multiple L2s</span>
+          <span class="tech-chip">Cosmos ecosystem</span>
+          <span class="tech-chip">Aptos</span>
+          <span class="tech-chip">Tron</span>
+        </div>
+      </div>
+      <div class="tech-box">
+        <div class="tech-box-icon">🛠️</div>
+        <div class="tech-box-title">Infrastructure</div>
+        <div class="tech-chain-list">
+          <span class="tech-chip highlight">Node operation (Aztec, Gensyn)</span>
+          <span class="tech-chip">Crypto tools &amp; scripts</span>
+          <span class="tech-chip">Server deployments</span>
+          <span class="tech-chip">Workflow automation</span>
+          <span class="tech-chip">Web3 infrastructure knowledge</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CASE STUDY -->
+  <section id="case-study">
+    <div class="section-label reveal">Deep Dive</div>
+    <div class="case-header reveal">
+      <h2 style="margin-bottom: 12px;">Case Study —<br/>OpenSea Ecosystem</h2>
+      <div class="case-badge">
+        <div class="case-badge-num">2x–4x</div>
+        <div class="case-badge-label">Expected ROI</div>
+      </div>
+    </div>
+
+    <div class="case-phases reveal">
+      <div class="phase-card">
+        <div class="phase-num">PHASE 01 — Initial Thesis</div>
+        <div class="phase-title">Why I started farming OpenSea</div>
+        <div class="phase-text">NFT marketplaces historically launch tokens with strong valuations. OpenSea was the most dominant marketplace in the previous bull cycle with major Tier-1 investors and significant funding. Venture funds expect strong ROI from launches, which typically translates into large community allocations — high probability of meaningful airdrop.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 02 — Strategy</div>
+        <div class="phase-title">Low-risk farming with high eligibility</div>
+        <div class="phase-text">Trading NFTs on liquid collections with near break-even rotations, increasing activity metrics rather than speculation, and monitoring incentive mechanics changes. Purchased ETH and started farming activity while minimizing exposure.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 03 — Market Adaptation</div>
+        <div class="phase-title">Pivoting when efficiency dropped</div>
+        <div class="phase-text">Farming efficiency dropped as airdrop farmers distorted bid/ask spreads. The team reacted and shut down that incentive phase — confirming they were serious about launch mechanics and optimizing distribution models. This increased confidence in the project quality.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 04 — Second Phase</div>
+        <div class="phase-title">XP chests, badges &amp; multi-chain activity</div>
+        <div class="phase-text">New campaign introduced rewards for XP chests, ecosystem badges, multi-chain activity, and NFT mints. Followed announcements closely, identified low-cost badge opportunities early, optimized actions across chains. Accounts reached one of the higher badge tiers.</div>
+      </div>
+    </div>
+
+    <div class="case-signals reveal">
+      <div class="section-label">Signals I Monitor</div>
+      <div class="signals-grid">
+        <div class="signal-item"><strong>Team communication</strong>Hints and transparency around TGE timing and product roadmap.</div>
+        <div class="signal-item"><strong>Product development</strong>Perpetual DEX and mobile application in development — suggests team wants stronger positioning before launch.</div>
+        <div class="signal-item"><strong>Token allocation</strong>At least 50% of token supply allocated to community with significant airdrop portion.</div>
+        <div class="signal-item"><strong>Market sentiment</strong>Currently bearish. Expected ROI 2x–4x. In stronger market, upside could be higher.</div>
+        <div class="signal-item"><strong>Current approach</strong>Diversification across multiple accounts, controlled budget allocation, maximizing badge tier advantage.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- GROWTH ANALYSIS -->
+  <section id="growth">
+    <div class="section-label reveal">Analysis</div>
+    <h2 class="reveal">OpenSea Campaign — Growth Review</h2>
+    <div class="analysis-grid reveal">
+      <div class="analysis-card positive">
+        <div class="analysis-header">
+          <div class="analysis-dot"></div>
+          <div class="analysis-title">What the team did well</div>
+        </div>
+        <ul class="analysis-items">
+          <li><strong>Adjusted incentives for real activity</strong>Modified campaign mechanics when farming distorted NFT prices, restoring healthier trading conditions and reducing churn to competitors.</li>
+          <li><strong>Cross-chain ecosystem expansion</strong>Multi-chain activity campaigns attracted more valuable users long-term and strengthened ecosystem integrations.</li>
+          <li><strong>Strong community communication</strong>Actively reacted to feedback. Example: refund issued for scam NFT where contract allowed purchase but blocked listing — builds platform trust significantly.</li>
+        </ul>
+      </div>
+      <div class="analysis-card negative">
+        <div class="analysis-header">
+          <div class="analysis-dot"></div>
+          <div class="analysis-title">Weaknesses / Missed opportunities</div>
+        </div>
+        <ul class="analysis-items">
+          <li><strong>Lack of clear timeline</strong>Many participants wanted clearer campaign milestones, estimated TGE timeline, and more transparency on distribution — uncertainty reduces user motivation over time.</li>
+          <li><strong>Missed strong market window</strong>The project likely had an opportunity to launch during a stronger market phase — better valuation, liquidity, and momentum potential.</li>
+        </ul>
+      </div>
+      <div class="analysis-card improve" style="grid-column: 1 / -1;">
+        <div class="analysis-header">
+          <div class="analysis-dot"></div>
+          <div class="analysis-title">How I would improve the campaign</div>
+        </div>
+        <ul class="analysis-items" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+          <li><strong>Focus on trading volume, not holding</strong>Trade-driven incentives (like other marketplaces use) support real liquidity, reduce passive farming, and increase platform revenue. Later campaigns started moving in this direction.</li>
+          <li><strong>Reduce low-quality quest activity</strong>Some mechanics attracted users farming base rewards without meaningful engagement — causing platform load, scam NFT activity, and lower participation quality.</li>
+          <li><strong>Better anti-farm design early</strong>Early programs could have included sybil filters, stronger activity weighting, and trading quality metrics to attract serious users instead of short-term farmers.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label reveal">What I Can Help With</div>
+    <h2 class="reveal">Services</h2>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-title">Growth &amp; Ecosystem Development</div>
+        <ul class="service-list">
+          <li>Designing incentive campaigns</li>
+          <li>Identifying high-engagement activities</li>
+          <li>Understanding what motivates Web3 users</li>
+          <li>Early user acquisition strategies</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-title">Crypto Research</div>
+        <ul class="service-list">
+          <li>Tokenomics analysis</li>
+          <li>Ecosystem opportunity evaluation</li>
+          <li>Market narrative tracking</li>
+          <li>Early project filtering</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">W3<span>.</span>Portfolio</div>
+    <a href="https://x.com/gshaaaz" target="_blank" rel="noopener" class="footer-twitter">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      @gshaaaz
+    </a>
+    <div class="footer-text">Web3 Growth &amp; Crypto Research Specialist</div>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    function animCursor() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      cursorRing.style.left = rx + 'px';
+      cursorRing.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+    document.querySelectorAll('a, button, .achievement-card, .service-card, .eco-tag').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.width = '16px'; cursor.style.height = '16px'; cursorRing.style.width = '48px'; cursorRing.style.height = '48px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.width = '8px'; cursor.style.height = '8px'; cursorRing.style.width = '32px'; cursorRing.style.height = '32px'; });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
