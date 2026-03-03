@@ -872,6 +872,111 @@
       transform: none;
     }
 
+    /* PHASE BLOCKS */
+    .phase-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border2);
+      border-radius: 0 16px 16px 0;
+      padding: 28px 32px;
+      margin-bottom: 16px;
+      transition: border-color 0.3s;
+    }
+    .phase-block:hover { border-left-color: var(--accent); }
+    .phase-block--highlight {
+      border-left-color: var(--accent);
+      background: rgba(0,229,160,0.03);
+    }
+    .phase-block-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .phase-num-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,229,160,0.08);
+      padding: 3px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .phase-block--highlight .phase-num-label {
+      background: rgba(0,229,160,0.15);
+    }
+    .phase-block-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .phase-block-body p {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.65;
+    }
+    .phase-list {
+      list-style: none;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .phase-list li {
+      font-size: 14px;
+      color: var(--text2);
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.55;
+    }
+    .phase-list li::before {
+      content: '›';
+      position: absolute;
+      left: 4px;
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .phase-note {
+      margin-top: 14px !important;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border-radius: 8px;
+      border-left: 2px solid var(--text3);
+      font-style: italic;
+      color: var(--text2) !important;
+    }
+
+    /* DEMONSTRATES */
+    .case-demonstrates {
+      margin-top: 32px;
+    }
+    .demonstrates-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .demo-item {
+      padding: 10px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-item::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
     /* SCROLLBAR */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -1150,46 +1255,158 @@
   <section id="case-study">
     <div class="section-label reveal">Deep Dive</div>
     <div class="case-header reveal">
-      <h2 style="margin-bottom: 12px;">Case Study —<br/>OpenSea Ecosystem</h2>
+      <h2 style="margin-bottom: 12px;">Case Study — Airdrop Strategy &amp; Ecosystem Analysis: OpenSea</h2>
       <div class="case-badge">
         <div class="case-badge-num">2x–4x</div>
         <div class="case-badge-label">Expected ROI</div>
       </div>
     </div>
 
-    <div class="case-phases reveal">
-      <div class="phase-card">
-        <div class="phase-num">PHASE 01 — Initial Thesis</div>
-        <div class="phase-title">Why I started farming OpenSea</div>
-        <div class="phase-text">NFT marketplaces historically launch tokens with strong valuations. OpenSea was the most dominant marketplace in the previous bull cycle with major Tier-1 investors and significant funding. Venture funds expect strong ROI from launches, which typically translates into large community allocations — high probability of meaningful airdrop.</div>
+    <div class="phase-block reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 01</span>
+        <span class="phase-block-title">Initial Thesis</span>
       </div>
-      <div class="phase-card">
-        <div class="phase-num">PHASE 02 — Strategy</div>
-        <div class="phase-title">Low-risk farming with high eligibility</div>
-        <div class="phase-text">Trading NFTs on liquid collections with near break-even rotations, increasing activity metrics rather than speculation, and monitoring incentive mechanics changes. Purchased ETH and started farming activity while minimizing exposure.</div>
+      <div class="phase-block-body">
+        <p>I started farming the OpenSea ecosystem almost from the beginning of their incentive programs based on several key observations:</p>
+        <ul class="phase-list">
+          <li>Historically, NFT marketplaces have launched tokens with strong valuations and significant airdrops.</li>
+          <li>OpenSea was the most dominant NFT marketplace during the previous bull cycle and generated substantial revenue.</li>
+          <li>According to data from DeFi analytics platforms, the project attracted major Tier-1 investors and significant funding.</li>
+          <li>Venture funds typically expect strong ROI from token launches, which often translates into large community allocations.</li>
+        </ul>
+        <p class="phase-note">Based on these factors, I assumed the probability of a meaningful airdrop was high. Additionally, I already had successful experience farming NFT ecosystems (including a profitable airdrop from Magic Eden), which gave me confidence in my strategy.</p>
       </div>
-      <div class="phase-card">
-        <div class="phase-num">PHASE 03 — Market Adaptation</div>
-        <div class="phase-title">Pivoting when efficiency dropped</div>
-        <div class="phase-text">Farming efficiency dropped as airdrop farmers distorted bid/ask spreads. The team reacted and shut down that incentive phase — confirming they were serious about launch mechanics and optimizing distribution models. This increased confidence in the project quality.</div>
+    </div>
+
+    <div class="phase-block reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 02</span>
+        <span class="phase-block-title">Strategy</span>
       </div>
-      <div class="phase-card">
-        <div class="phase-num">PHASE 04 — Second Phase</div>
-        <div class="phase-title">XP chests, badges &amp; multi-chain activity</div>
-        <div class="phase-text">New campaign introduced rewards for XP chests, ecosystem badges, multi-chain activity, and NFT mints. Followed announcements closely, identified low-cost badge opportunities early, optimized actions across chains. Accounts reached one of the higher badge tiers.</div>
+      <div class="phase-block-body">
+        <p>My approach was focused on low-risk farming with high eligibility probability. Main tactics:</p>
+        <ul class="phase-list">
+          <li>Trading NFTs on liquid collections</li>
+          <li>Maintaining near break-even rotations</li>
+          <li>Increasing activity metrics rather than pure speculation</li>
+          <li>Monitoring incentive mechanics changes</li>
+        </ul>
+        <p class="phase-note">I purchased ETH and started farming activity on the marketplace while minimizing exposure.</p>
+      </div>
+    </div>
+
+    <div class="phase-block reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 03</span>
+        <span class="phase-block-title">Market Adaptation</span>
+      </div>
+      <div class="phase-block-body">
+        <p>At some point, farming efficiency dropped because airdrop farmers distorted bid/ask spreads. This made the previous strategy less effective. The team reacted and eventually shut down that incentive phase.</p>
+        <p class="phase-note">This confirmed an important signal: the team was actively adjusting incentives to improve user quality. This increased my confidence that they were serious about token launch mechanics and were optimizing distribution models.</p>
+      </div>
+    </div>
+
+    <div class="phase-block reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 04</span>
+        <span class="phase-block-title">Second Incentive Phase</span>
+      </div>
+      <div class="phase-block-body">
+        <p>Later, a new campaign was introduced. Users could earn: XP chests, ecosystem badges, rewards for activity across multiple chains, and participation in specific NFT mints.</p>
+        <p style="margin-top:12px; font-weight:600; color: var(--text);">At this stage I adjusted my strategy:</p>
+        <ul class="phase-list">
+          <li>Followed announcements closely (Twitter alerts + community alpha channels)</li>
+          <li>Identified low-cost opportunities to obtain badges early</li>
+          <li>Optimized actions across different chains</li>
+        </ul>
+        <p class="phase-note">Result: My accounts reached one of the higher badge tiers in the campaign.</p>
+      </div>
+    </div>
+
+    <div class="phase-block reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 05</span>
+        <span class="phase-block-title">Long-Term Participation</span>
+      </div>
+      <div class="phase-block-body">
+        <p>For several months I consistently participated in daily quests and ecosystem activities:</p>
+        <ul class="phase-list">
+          <li>NFT purchases</li>
+          <li>Token swaps across networks</li>
+          <li>Social tasks</li>
+          <li>Mint participation</li>
+          <li>Cross-chain interactions</li>
+        </ul>
+        <p class="phase-note">I maintained consistent engagement throughout the campaign. One issue I noticed: high traffic often caused the platform to lag and occasionally miss task tracking — a common problem during peak activity.</p>
+      </div>
+    </div>
+
+    <div class="phase-block phase-block--highlight reveal">
+      <div class="phase-block-header">
+        <span class="phase-num-label">PHASE 06 — CURRENT</span>
+        <span class="phase-block-title">Current Campaign (Latest Season)</span>
+      </div>
+      <div class="phase-block-body">
+        <p>The latest campaign is structured in seasonal phases and requires a defined budget because farming involves fees spending. The reward structure includes:</p>
+        <ul class="phase-list">
+          <li>NFT rewards</li>
+          <li>Token rewards</li>
+          <li>Badge multipliers affecting final allocation</li>
+        </ul>
+        <p style="margin-top:12px; font-weight:600; color: var(--text);">My strategy now:</p>
+        <ul class="phase-list">
+          <li>Diversification across multiple accounts</li>
+          <li>Controlled budget allocation</li>
+          <li>Risk/reward evaluation</li>
+          <li>Maximizing badge tier advantage</li>
+        </ul>
+        <p class="phase-note">This approach reduces variance while increasing expected return.</p>
+      </div>
+    </div>
+
+    <div class="case-signals reveal">
+      <div class="section-label">Market Analysis &amp; Expected Outcome</div>
+      <div class="signals-grid">
+        <div class="signal-item"><strong>Token allocation</strong>At least 50% of token supply will be allocated to the community. A significant portion of that will go to airdrops.</div>
+        <div class="signal-item"><strong>Expected ROI</strong>Based on activity level, badge tier, campaign participation and estimated FDV — approximately 2x–4x. In a stronger market, the upside could be higher.</div>
+        <div class="signal-item"><strong>TGE signals</strong>Possible delay of TGE (previously expected earlier). AMA scheduled around late March.</div>
+        <div class="signal-item"><strong>Product development</strong>Perpetual DEX and mobile application in development — team may want to launch under better conditions or after additional product releases.</div>
       </div>
     </div>
 
     <div class="case-signals reveal">
       <div class="section-label">Signals I Monitor</div>
       <div class="signals-grid">
-        <div class="signal-item"><strong>Team communication</strong>Hints and transparency around TGE timing and product roadmap.</div>
-        <div class="signal-item"><strong>Product development</strong>Perpetual DEX and mobile application in development — suggests team wants stronger positioning before launch.</div>
-        <div class="signal-item"><strong>Token allocation</strong>At least 50% of token supply allocated to community with significant airdrop portion.</div>
-        <div class="signal-item"><strong>Market sentiment</strong>Currently bearish. Expected ROI 2x–4x. In stronger market, upside could be higher.</div>
-        <div class="signal-item"><strong>Current approach</strong>Diversification across multiple accounts, controlled budget allocation, maximizing badge tier advantage.</div>
+        <div class="signal-item"><strong>Team communication and hints</strong>Active monitoring of official channels and community alpha.</div>
+        <div class="signal-item"><strong>Product development progress</strong>Tracking new feature launches and roadmap updates.</div>
+        <div class="signal-item"><strong>Market sentiment</strong>Adjusting strategy based on macro conditions and narrative cycles.</div>
+        <div class="signal-item"><strong>Tokenomics announcements</strong>Any changes to supply allocation or distribution model.</div>
+        <div class="signal-item"><strong>New product launches</strong>Perpetual DEX and mobile app as catalysts for stronger TGE conditions.</div>
       </div>
     </div>
+
+    <div class="case-signals reveal">
+      <div class="section-label">Next Steps in My Strategy</div>
+      <div class="signals-grid">
+        <div class="signal-item"><strong>Final season participation</strong>Continue participating in the last campaign season before TGE.</div>
+        <div class="signal-item"><strong>Ecosystem monitoring</strong>Continue tracking changes in incentive mechanics and team signals.</div>
+        <div class="signal-item"><strong>Perpetual DEX usage</strong>Use the perpetual DEX once available to increase activity signals.</div>
+        <div class="signal-item"><strong>Hold until launch</strong>Maintain exposure until the token launch. Approach based on long-term probability, not short-term speculation.</div>
+      </div>
+    </div>
+
+    <div class="case-demonstrates reveal">
+      <div class="section-label">What This Case Demonstrates</div>
+      <div class="demonstrates-grid">
+        <div class="demo-item">Identify high-probability airdrop opportunities</div>
+        <div class="demo-item">Adapt strategy when incentive mechanics change</div>
+        <div class="demo-item">Analyze investor signals and tokenomics expectations</div>
+        <div class="demo-item">Manage risk in long-term farming strategies</div>
+        <div class="demo-item">Understand Web3 user behavior and campaign design</div>
+      </div>
+    </div>
+
   </section>
 
   <div class="section-divider"></div>
@@ -1197,7 +1414,7 @@
   <!-- GROWTH ANALYSIS -->
   <section id="growth">
     <div class="section-label reveal">Analysis</div>
-    <h2 class="reveal">OpenSea Campaign — Growth Review</h2>
+    <h2 class="reveal">Growth Analysis — OpenSea Incentive Campaign</h2>
     <div class="analysis-grid reveal">
       <div class="analysis-card positive">
         <div class="analysis-header">
@@ -1205,34 +1422,35 @@
           <div class="analysis-title">What the team did well</div>
         </div>
         <ul class="analysis-items">
-          <li><strong>Adjusted incentives for real activity</strong>Modified campaign mechanics when farming distorted NFT prices, restoring healthier trading conditions and reducing churn to competitors.</li>
-          <li><strong>Cross-chain ecosystem expansion</strong>Multi-chain activity campaigns attracted more valuable users long-term and strengthened ecosystem integrations.</li>
-          <li><strong>Strong community communication</strong>Actively reacted to feedback. Example: refund issued for scam NFT where contract allowed purchase but blocked listing — builds platform trust significantly.</li>
+          <li><strong>Adjusted incentives to support real marketplace activity</strong>The team modified campaign mechanics when farming behavior started distorting NFT prices. This helped restore healthier trading conditions and reduced the risk of users moving to competing marketplaces. Shows active incentive management, focus on marketplace sustainability, and long-term product thinking.</li>
+          <li><strong>Cross-chain ecosystem expansion</strong>The campaign encouraged activity across multiple networks, likely involving partnerships with other ecosystems. This helped increase OpenSea visibility, attract new users from other chains, and strengthen ecosystem integrations. Multi-chain users are usually more valuable long term.</li>
+          <li><strong>Strong community communication</strong>The team regularly communicated and reacted to feedback. Example: I once received a refund after buying a scam NFT where the contract allowed purchase but prevented listing or bidding. The support team handled this well — trust is extremely important for NFT marketplaces.</li>
         </ul>
       </div>
       <div class="analysis-card negative">
         <div class="analysis-header">
           <div class="analysis-dot"></div>
-          <div class="analysis-title">Weaknesses / Missed opportunities</div>
+          <div class="analysis-title">Weaknesses / Missed Opportunities</div>
         </div>
         <ul class="analysis-items">
-          <li><strong>Lack of clear timeline</strong>Many participants wanted clearer campaign milestones, estimated TGE timeline, and more transparency on distribution — uncertainty reduces user motivation over time.</li>
-          <li><strong>Missed strong market window</strong>The project likely had an opportunity to launch during a stronger market phase — better valuation, liquidity, and momentum potential.</li>
+          <li><strong>Lack of clear timeline</strong>Many participants wanted clearer campaign milestones, estimated timeline for the token launch, and more transparency around the distribution process. This uncertainty can reduce user motivation over time.</li>
+          <li><strong>Missed strong market window</strong>The project likely had an opportunity to launch during a stronger market phase — which could have increased token valuation, improved liquidity, and generated stronger market momentum. The team may be waiting for better conditions or additional product releases.</li>
         </ul>
       </div>
       <div class="analysis-card improve" style="grid-column: 1 / -1;">
         <div class="analysis-header">
           <div class="analysis-dot"></div>
-          <div class="analysis-title">How I would improve the campaign</div>
+          <div class="analysis-title">How I Would Improve the Campaign</div>
         </div>
         <ul class="analysis-items" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
-          <li><strong>Focus on trading volume, not holding</strong>Trade-driven incentives (like other marketplaces use) support real liquidity, reduce passive farming, and increase platform revenue. Later campaigns started moving in this direction.</li>
-          <li><strong>Reduce low-quality quest activity</strong>Some mechanics attracted users farming base rewards without meaningful engagement — causing platform load, scam NFT activity, and lower participation quality.</li>
-          <li><strong>Better anti-farm design early</strong>Early programs could have included sybil filters, stronger activity weighting, and trading quality metrics to attract serious users instead of short-term farmers.</li>
+          <li><strong>Focus more on trading volume instead of NFT holding</strong>The first campaign rewarded NFT holding rather than active trading. A model similar to trade-driven incentives might have worked better from the beginning — it supports real liquidity, reduces passive farming, and increases platform revenue. Interestingly, the later campaigns started moving closer to this model.</li>
+          <li><strong>Reduce low-quality quest activity</strong>Some quest mechanics attracted users who were only farming base rewards without meaningful engagement. This caused unnecessary platform load, increased scam NFT activity, and lower quality user participation. Campaigns should prioritize trading behavior, liquidity contribution, and real marketplace usage.</li>
+          <li><strong>Improve anti-farm design early</strong>Early incentive programs could have included better filters for sybil activity, stronger activity weighting, and trading quality metrics. This would help attract more serious users instead of short-term farmers.</li>
         </ul>
       </div>
     </div>
   </section>
+
 
   <div class="section-divider"></div>
 
